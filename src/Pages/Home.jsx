@@ -4,7 +4,6 @@ import TodoList from "../Components/TodoList";
 import axios from "axios";
 
 const Home = () => {
-
   const [todoItems, setTodoItems] = useState([]);
 
   const getTodos = async () => {
@@ -19,7 +18,7 @@ const Home = () => {
 
   useEffect(() => {
     getTodos();
-    }, []);
+  }, []);
 
   return (
     <>

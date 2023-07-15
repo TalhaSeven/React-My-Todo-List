@@ -23,26 +23,19 @@ const TodoList = ({ todoList, getTodos }) => {
     getTodos();
   };
 
-  
-
   return (
     <>
       <div className="container w-50 mt-4">
         <h1 className="text-info text-center">Todo List</h1>
         {todoList.map((item) => {
           const { todo, id, descr } = item;
-          // const date = new Date();
-          // const day = date.getDay();
-          // const mount = date.getMonth();
-          // const hour = date.getHours();
-          // const minute = date.getMinutes();
-          // let time = `Date: ${day}/${mount} Time:${hour}:${minute}`;
           return (
             <div
               key={id}
-              className="row bg-success-subtle m-0 mb-2 p-2 rounded-pill"
+              className="row row-cols-auto bg-success-subtle m-0 mb-2 p-2 rounded-pill"
             >
               <div className="col-10">
+                <input type="checkbox" name="" id="" className="me-3" />
                 <span className="m-0">{todo} </span>
                 <span className="m-0">{descr}</span>
               </div>
