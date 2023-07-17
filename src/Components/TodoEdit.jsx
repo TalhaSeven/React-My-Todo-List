@@ -1,18 +1,27 @@
 import { useEffect, useState } from "react";
 
 const TodoEdit = ({ handleEdit, toBeEdited }) => {
-  const { todo, id, descr } = toBeEdited;
+  const { todo, id, descr, date } = toBeEdited;
   const [editedtodo, setEditedtodo] = useState(todo);
   const [editedDescr, setEditedDescr] = useState(descr);
+  const [editDate, setEditDate] = useState(date);
 
   const handleSubmit = () => {
-    handleEdit(id, editedtodo, editedDescr); //! 1.parametre id, 2.parametre editlenmiş todo
+    const time = new Date();
+    setEditDate(
+      `${time.getDate()}/${time.getMonth() + 1} ${time.getHours()}:${time
+        .getMinutes()
+        .toString()
+        .padStart(2, "0")}`
+    );
+    handleEdit(id, editedtodo, editedDescr, editDate);
   };
 
   useEffect(() => {
     setEditedtodo(todo);
     setEditedDescr(descr);
-  }, [todo, descr]);
+    setEditDate(date);
+  }, [todo, descr, date]);
 
   return (
     <div
@@ -40,9 +49,9 @@ const TodoEdit = ({ handleEdit, toBeEdited }) => {
               Todo
             </label>
             <input
-              onKeyDown={(e) => e.keyCode === 13 && handleSubmit()}
+              onKeyPress={(e) => e.key === "Enter" && handleSubmit()}
               onChange={(e) => setEditedtodo(e.target.value)}
-              value={editedtodo}
+              value={editedtodo || ""}
               type="text"
               className="form-control"
               name=""
@@ -53,9 +62,9 @@ const TodoEdit = ({ handleEdit, toBeEdited }) => {
               Description
             </label>
             <input
-              onKeyDown={(e) => e.keyCode === 13 && handleSubmit()}
+              onKeyPress={(e) => e.key === "Enter" && handleSubmit()}
               onChange={(e) => setEditedDescr(e.target.value)}
-              value={editedDescr}
+              value={editedDescr || ""}
               type="text"
               className="form-control"
               name=""

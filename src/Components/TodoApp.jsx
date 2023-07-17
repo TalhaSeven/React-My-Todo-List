@@ -4,23 +4,43 @@ import axios from "axios";
 const TodoApp = ({ getTodos }) => {
   const [todo, setTodo] = useState("");
   const [descr, setDescr] = useState("");
+  const [date, setDate] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let url = "https://64b022c0c60b8f941af54a76.mockapi.io/api/todo";
+
+    if (!todo.trim() || !descr.trim()) {
+      alert("Todo and Description fields are required !");
+      return;
+    }
+
     try {
-      await axios.post(url, { todo, descr });
+      await axios.post(`https://64b022c0c60b8f941af54a76.mockapi.io/api/todo`, {
+        todo,
+        descr,
+        date,
+      });
     } catch (error) {
       console.log(error);
     }
     setTodo("");
     setDescr("");
+    setDate("");
     getTodos();
   };
 
+  function handleDate() {
+    const time = new Date();
+    setDate(
+      `${time.getDate()}/${time.getMonth() + 1} ${time.getHours()}:${time
+        .getMinutes()
+        .toString()
+        .padStart(2, "0")}`
+    );
+  }
   return (
     <>
-      <div className="container w-25 mt-5">
+      <div className="container w-50 mt-5">
         <h1 className="text-info text-center">My Todo</h1>
         <form
           onSubmit={handleSubmit}
@@ -50,7 +70,11 @@ const TodoApp = ({ getTodos }) => {
               className="form-control w-100 me-3 rounded-pill"
             />
           </div>
-          <button type="submit" className="btn btn-info w-100">
+          <button
+            onClick={handleDate}
+            type="submit"
+            className="btn btn-info w-100 rounded-pill"
+          >
             Add Todo
           </button>
         </form>
